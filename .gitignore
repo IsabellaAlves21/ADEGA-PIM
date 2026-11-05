@@ -1,0 +1,18 @@
+
+# Arquivos temporarios do .NET
+**/bin/
+**/obj/
+.vs/
+.vscode/
+*.user
+*.suo
+
+# Configuracoes privadas
+.env
+.env.*
+appsettings.Local.json
+appsettings.Development.json
+
+# Backups do banco de dados
+backups/
+*.bak

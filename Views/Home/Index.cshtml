@@ -1,0 +1,49 @@
+@model InicioViewModel
+@{
+    ViewData["Title"] = "Início";
+}
+<section class="hero-section container" aria-label="Destaques da loja">
+    <div class="hero-slider" data-slider>
+        <div class="hero-slide active slide-one" data-slide>
+            <div class="slide-copy"><span class="eyebrow">BEM-VINDO À ADEGA2L</span><h1>DO SEU JEITO.<br /><strong>NO SEU RITMO.</strong></h1><p>Sua vitrine de bebidas, snacks e conveniência está aqui.</p>
+                <a class="btn-primary" asp-controller="Produtos" asp-action="Categoria" asp-route-categoria="bebidas">Explorar bebidas <span>↗</span></a>
+            </div><div class="hero-art" aria-hidden="true"><span class="orbit orbit-one"></span><span class="large-illustration">✦</span><span class="hero-sticker">ADEGA<br /><b>2L</b></span></div>
+        </div>
+        <div class="hero-slide slide-two" data-slide>
+            <div class="slide-copy"><span class="eyebrow">CONHEÇA NOSSO CATÁLOGO</span><h1>ESCOLHAS<br /><strong>QUE COMBINAM.</strong></h1><p>Opções para diferentes gostos e momentos.</p>
+                <a class="btn-primary" asp-controller="Produtos" asp-action="Categoria" asp-route-categoria="destilados">Ver destilados <span>↗</span></a>
+            </div><div class="hero-art" aria-hidden="true"><span class="large-illustration">◈</span><span class="hero-sticker">NOVIDADES<br /><b>2L</b></span></div>
+        </div>
+        <div class="hero-slide slide-three" data-slide>
+            <div class="slide-copy"><span class="eyebrow">PRATICIDADE TODO DIA</span><h1>UM SNACK<br /><strong>MUDA TUDO.</strong></h1><p>Seus petiscos favoritos em uma vitrine só.</p>
+                <a class="btn-primary" asp-controller="Produtos" asp-action="Categoria" asp-route-categoria="snacks">Ver snacks <span>↗</span></a>
+            </div><div class="hero-art" aria-hidden="true"><span class="large-illustration">✳</span><span class="hero-sticker">SNACKS<br /><b>2L</b></span></div>
+        </div>
+        <div class="slider-controls"><button type="button" data-prev aria-label="Banner anterior">‹</button><div class="slider-dots"><button type="button" class="active" data-dot="0" aria-label="Banner 1"></button><button type="button" data-dot="1" aria-label="Banner 2"></button><button type="button" data-dot="2" aria-label="Banner 3"></button></div><button type="button" data-next aria-label="Próximo banner">›</button></div>
+    </div>
+</section>
+<div class="container"><div class="demo-ribbon"><span>✳</span> @if (OrigemDados.UsarMySql(Config)) { <text>CATÁLOGO CONECTADO AO BANCO — carrinho ficará para uma atualização futura. Pedidos diretos podem ser solicitados.</text> } else { <text>VISUALIZAÇÃO ACADÊMICA — produtos, imagens e preços são exemplos fictícios. Carrinho virá em outra versão; pedidos diretos estão disponíveis para teste.</text> }</div></div>
+<section class="container shortcuts-section"><div class="section-heading"><div><span class="mini-label">ENCONTRE O QUE PRECISA</span><h2>Explore nossas categorias<span class="heading-dot">.</span></h2></div></div>
+    <div class="category-tiles">
+        <a asp-controller="Produtos" asp-action="Categoria" asp-route-categoria="bebidas" class="category-tile tile-drink"><img src="~/images/bebidas.svg" alt=""/><span>BEBIDAS <small>Ver catálogo ↗</small></span></a>
+        <a asp-controller="Produtos" asp-action="Categoria" asp-route-categoria="destilados" class="category-tile tile-spirits"><img src="~/images/destilados.svg" alt=""/><span>DESTILADOS <small>Ver catálogo ↗</small></span></a>
+        <a asp-controller="Produtos" asp-action="Categoria" asp-route-categoria="snacks" class="category-tile tile-snacks"><img src="~/images/snacks.svg" alt=""/><span>SNACKS <small>Ver catálogo ↗</small></span></a>
+        <a asp-controller="Produtos" asp-action="Categoria" asp-route-categoria="cigarros" class="category-tile tile-smokes"><img src="~/images/cigarros.svg" alt=""/><span>CIGARROS <small>Ver catálogo ↗</small></span></a>
+    </div>
+</section>
+<section class="container product-section" id="destaques"><div class="section-heading"><div><span class="mini-label">SELEÇÃO DA ADEGA</span><h2>Mais vendidos da semana<span class="heading-dot">.</span></h2><p>Itens em destaque do catálogo.</p></div></div>
+    @foreach (var grupo in Model.Grupos)
+    {
+        <div class="products-group"><div class="group-title"><h3>@grupo.Categoria</h3><a asp-controller="Produtos" asp-action="Categoria" asp-route-categoria="@grupo.Categoria.ToLowerInvariant()">Ver todos <span aria-hidden="true">→</span></a></div>
+            @if (grupo.Produtos.Count > 0)
+            {
+                <div class="product-grid">@foreach (var produto in grupo.Produtos) { <partial name="_ProdutoCard" model="produto" /> }</div>
+            }
+            else
+            {
+                <p class="empty-state">Ainda não há produtos nesta categoria.</p>
+            }
+        </div>
+    }
+</section>
+<section class="about-promo container"><div><span class="mini-label">UM POUCO SOBRE NÓS</span><h2>Mais que bebidas.<br /><em>Conveniência de verdade.</em></h2><p>Conheça a proposta da Adega2L e as categorias de produtos reunidas em nosso catálogo.</p><a class="btn-outline" asp-controller="Home" asp-action="Institucional">Conheça nossa história ↗</a></div><span class="promo-shape" aria-hidden="true">2L</span></section>

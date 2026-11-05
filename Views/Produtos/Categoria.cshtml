@@ -1,0 +1,29 @@
+@model CategoriaViewModel
+@{
+    ViewData["Title"] = Model.Categoria;
+    var slug = Model.Categoria.ToLowerInvariant();
+}
+<div class="container breadcrumb"><a asp-controller="Home" asp-action="Index">Início</a><span>›</span><span>@Model.Categoria</span></div>
+<section class="category-page container"><div class="page-intro"><div><span class="mini-label">CATÁLOGO ADEGA2L</span><h1>@Model.Categoria<span class="heading-dot">.</span></h1><p>Confira os produtos desta categoria.</p></div><div class="count-chip">@(OrigemDados.UsarMySql(Config) ? "CATÁLOGO DO BANCO" : "CATÁLOGO DEMONSTRATIVO")</div></div>
+    <div class="section-heading"><div><span class="mini-label">NOSSA SELEÇÃO</span><h2>Mais vendidos da semana</h2></div></div>
+    @if (Model.Destaques.Count > 0)
+    {
+        <div class="product-grid">@foreach (var p in Model.Destaques) { <partial name="_ProdutoCard" model="p" /> }</div>
+    }
+    else { <div class="empty-state">Nenhum produto cadastrado nesta categoria.</div> }
+    <div class="section-heading catalog-heading"><div><span class="mini-label">VEJA TODOS</span><h2>Catálogo</h2></div></div>
+    @if (Model.Produtos.Count > 0)
+    {
+        <div class="product-grid">@foreach (var p in Model.Produtos) { <partial name="_ProdutoCard" model="p" /> }</div>
+        @if (Model.TotalPaginas > 1)
+        {
+            <div class="pagination">
+                @for (var p = 1; p <= Model.TotalPaginas; p++)
+                {
+                    <a class="@(p == Model.Pagina ? "current" : "")" asp-controller="Produtos" asp-action="Categoria" asp-route-categoria="@slug" asp-route-pagina="@p">@p</a>
+                }
+            </div>
+        }
+    }
+    else { <div class="empty-state">Não há produtos para exibir.</div> }
+</section>

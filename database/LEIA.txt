@@ -1,0 +1,6 @@
+Importe 01_ADEGA2L_BANCO_COMPLETO.sql pelo phpMyAdmin (XAMPP).
+O script cria o banco e 8 tabelas, as quatro categorias e 28 produtos EXEMPLO.
+Depois configure ConnectionStrings__MySql e crie o primeiro dono pelo comando do README.
+Sem um dono criado, clientes nao conseguem entrar no painel.
+Nunca use credenciais antigas presentes nos arquivos PHP enviados; troque-as se ainda existem.
+Nao altere saldos de estoque diretamente por SQL, pois a aplicação mantém lotes e saldos sincronizados.

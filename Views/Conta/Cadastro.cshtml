@@ -1,0 +1,34 @@
+@model CadastroViewModel
+@{
+    ViewData["Title"] = "Cadastro";
+}
+<section class="container register-section"><div class="register-intro"><span class="mini-label">FAÇA PARTE DA ADEGA2L</span><h1>Crie sua conta<span class="heading-dot">.</span></h1><p>Preencha as informações abaixo para testar o cadastro de usuários. @(OrigemDados.UsarMySql(Config) ? "O cadastro será salvo no banco de dados configurado." : "Os dados são armazenados somente na memória durante esta demonstração.")</p></div>
+    @if (!OrigemDados.UsarMySql(Config)) { <div class="demo-hint"><strong>Atenção:</strong> não utilize CPF, endereço ou senha reais nesta versão demonstrativa. O armazenamento definitivo dependerá do banco de dados.</div> }
+    <form asp-controller="Conta" asp-action="Cadastro" method="post" class="register-form">
+        @Html.AntiForgeryToken()
+        <div asp-validation-summary="ModelOnly" class="validation"></div>
+        <div class="form-section-heading"><span>01</span><h2>Dados pessoais</h2></div>
+        <div class="form-grid">
+            <div class="field span-2"><label asp-for="Nome"></label><input asp-for="Nome" placeholder="Seu nome completo" /><span asp-validation-for="Nome" class="validation"></span></div>
+            <div class="field"><label asp-for="Email"></label><input asp-for="Email" autocomplete="email" placeholder="seuemail@exemplo.com" /><span asp-validation-for="Email" class="validation"></span></div>
+            <div class="field"><label asp-for="Cpf"></label><input asp-for="Cpf" inputmode="numeric" maxlength="11" placeholder="11 números" /><span asp-validation-for="Cpf" class="validation"></span></div>
+            <div class="field"><label asp-for="DataNascimento"></label><input asp-for="DataNascimento" type="date" max="@DateTime.Today.ToString("yyyy-MM-dd")" /><span asp-validation-for="DataNascimento" class="validation"></span></div>
+        </div>
+        <div class="form-section-heading"><span>02</span><h2>Crie sua senha</h2></div>
+        <div class="form-grid"><div class="field"><label asp-for="Senha"></label><input asp-for="Senha" autocomplete="new-password" placeholder="Mínimo de 8 caracteres" /><span asp-validation-for="Senha" class="validation"></span></div><div class="field"><label asp-for="ConfirmarSenha"></label><input asp-for="ConfirmarSenha" autocomplete="new-password" placeholder="Repita a senha" /><span asp-validation-for="ConfirmarSenha" class="validation"></span></div></div>
+        <div class="form-section-heading"><span>03</span><h2>Endereço e contato</h2></div>
+        <div class="form-grid">
+            <div class="field"><label asp-for="TipoLogradouro"></label><input asp-for="TipoLogradouro" placeholder="Rua, Av..." /></div>
+            <div class="field"><label asp-for="NomeLogradouro"></label><input asp-for="NomeLogradouro" placeholder="Nome da via" /></div>
+            <div class="field"><label asp-for="NumeroLogradouro"></label><input asp-for="NumeroLogradouro" placeholder="Número" /></div>
+            <div class="field"><label asp-for="ComplementoLogradouro"></label><input asp-for="ComplementoLogradouro" placeholder="Apto, casa..." /></div>
+            <div class="field"><label asp-for="Bairro"></label><input asp-for="Bairro" placeholder="Bairro" /></div>
+            <div class="field"><label asp-for="Cidade"></label><input asp-for="Cidade" placeholder="Cidade" /></div>
+            <div class="field"><label asp-for="Cep"></label><input asp-for="Cep" inputmode="numeric" maxlength="8" placeholder="8 números" /><span asp-validation-for="Cep" class="validation"></span></div>
+            <div class="field"><label asp-for="Ddi"></label><input asp-for="Ddi" inputmode="numeric" maxlength="3" /><span asp-validation-for="Ddi" class="validation"></span></div>
+            <div class="field"><label asp-for="Ddd"></label><input asp-for="Ddd" inputmode="numeric" maxlength="2" placeholder="13" /><span asp-validation-for="Ddd" class="validation"></span></div>
+            <div class="field"><label asp-for="NumeroTelefone"></label><input asp-for="NumeroTelefone" type="tel" inputmode="numeric" maxlength="9" placeholder="9 dígitos" /><span asp-validation-for="NumeroTelefone" class="validation"></span></div>
+        </div>
+        <div class="form-actions"><button type="submit" class="btn-primary">Criar minha conta ↗</button><p>Já tem conta? <a asp-controller="Conta" asp-action="Login">Fazer login</a></p></div>
+    </form>
+</section>

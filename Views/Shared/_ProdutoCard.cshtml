@@ -1,0 +1,15 @@
+@model Produto
+<article class="product-card">
+    <a class="product-image" asp-controller="Produtos" asp-action="Detalhes" asp-route-id="@Model.Id" aria-label="Ver detalhes de @Model.Nome">
+        <img src="@Model.Imagem" alt="Ilustração de @Model.Nome" loading="lazy" onerror="this.src='/images/placeholder.svg'" />
+        @if (!OrigemDados.UsarMySql(Config)) { <span class="product-tag">DEMONSTRAÇÃO</span> }
+    </a>
+    <div class="product-info">
+        <span class="product-category">@Model.Categoria</span>
+        <h3>@Model.Nome</h3>
+        <p class="product-description">@Model.Descricao</p>
+        <div class="product-bottom"><span class="product-price">@Model.Preco.ToString("C")</span><button type="button" class="add-cart" disabled title="Carrinho disponível em atualização futura" aria-label="Adicionar ao carrinho: em breve">+</button></div>
+        @if(Model.Categoria != "Cigarros" && Model.Estoque > 0) { <a class="product-details-link" asp-controller="Pedidos" asp-action="Novo" asp-route-id="@Model.Id">Pedir direto ↗</a> }
+        <a class="product-details-link" asp-controller="Produtos" asp-action="Detalhes" asp-route-id="@Model.Id">Ver detalhes <span aria-hidden="true">↗</span></a>
+    </div>
+</article>

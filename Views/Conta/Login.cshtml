@@ -1,0 +1,15 @@
+@model LoginViewModel
+@{
+    ViewData["Title"] = "Entrar";
+}
+<section class="auth-section"><div class="container auth-layout"><aside class="auth-aside"><div class="aside-overlay"><span class="mini-label">PRAZER, SOMOS A ADEGA2L</span><h1>SUA CONVENIÊNCIA<br /><strong>COMEÇA AQUI.</strong></h1><p>Acesse sua conta para conhecer a experiência de navegação do projeto.</p><div class="aside-logo">2L<span>✳</span></div></div></aside><div class="auth-main"><div class="form-eyebrow">ACESSE SUA CONTA</div><h2>Bem-vindo de volta<span class="heading-dot">.</span></h2><p>Informe seus dados para continuar.</p>
+    @if (TempData["Mensagem"] is string mensagem) { <div class="alert success">@mensagem</div> }
+    @if (!OrigemDados.UsarMySql(Config)) { <div class="demo-hint"><strong>Modo demonstração:</strong> contas cadastradas são temporárias. Dono: dono@demo.local / Demo@12345 · Funcionário: funcionario@demo.local / Demo@12345. Nunca use estas contas fora de testes locais.</div> }
+    <form asp-controller="Conta" asp-action="Login" method="post" class="auth-form">
+        @Html.AntiForgeryToken()
+        <div asp-validation-summary="ModelOnly" class="validation"></div>
+        <div class="field"><label asp-for="Email"></label><input asp-for="Email" autocomplete="email" placeholder="seuemail@exemplo.com" /><span asp-validation-for="Email" class="validation"></span></div>
+        <div class="field"><label asp-for="Senha"></label><input asp-for="Senha" autocomplete="current-password" placeholder="Digite sua senha" /><span asp-validation-for="Senha" class="validation"></span></div>
+        <button type="submit" class="btn-primary full-btn">Entrar na minha conta ↗</button>
+        <p class="auth-switch">Ainda não tem conta? <a asp-controller="Conta" asp-action="Cadastro">Cadastre-se</a></p>
+    </form></div></div></section>

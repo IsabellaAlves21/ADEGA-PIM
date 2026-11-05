@@ -1,0 +1,26 @@
+@model DashboardViewModel
+@{ ViewData["Title"] = "Painel administrativo"; }
+<section class="container admin-shell">
+ <div class="admin-title"><span class="mini-label">ACESSO RESTRITO · @(User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value)</span><h1>Painel de gestão<span class="heading-dot">.</span></h1><p>Estoque, movimentações, faturamento e vendas. Informações visíveis somente à equipe autorizada.</p></div>
+ <partial name="_AdminNav" />
+ <div class="admin-kpis">
+  <div class="kpi"><span>Faturamento total</span><strong>@Model.Resumo.Faturamento.ToString("C")</strong><small>Vendas concluídas</small></div>
+  <div class="kpi"><span>Saldo de caixa</span><strong>@Model.Resumo.SaldoCaixa.ToString("C")</strong><small>Entradas menos saídas</small></div>
+  <div class="kpi"><span>Vendas concluídas</span><strong>@Model.Resumo.VendasConcluidas</strong><small>PDV + pedidos confirmados</small></div>
+  <div class="kpi"><span>Pedidos pendentes</span><strong>@Model.Resumo.PedidosPendentes</strong><small>Sem baixa de estoque</small></div>
+ </div>
+ <div class="admin-dual">
+  <div class="admin-panel"><div class="panel-head"><h2>Alertas de estoque <span class="alert-number">@Model.Resumo.AlertasEstoque</span></h2><a asp-action="Estoque">Ver estoque ↗</a></div>
+   @foreach(var p in Model.Produtos.Where(x=>x.Estoque<=x.EstoqueMinimo).Take(8)) { <div class="alert-row"><strong>@p.Nome</strong><span>@p.Estoque un. / mínimo @p.EstoqueMinimo</span></div> }
+   @if(!Model.Produtos.Any(x=>x.Estoque<=x.EstoqueMinimo)) { <p class="muted">Nenhum alerta de estoque baixo.</p> }
+  </div>
+  <div class="admin-panel"><div class="panel-head"><h2>Próximos do vencimento <span class="alert-number">@Model.Resumo.AlertasVencimento</span></h2><a asp-action="Estoque">Ver lotes ↗</a></div>
+   @foreach(var l in Model.Lotes.Where(x=>x.Vencimento.HasValue && x.Vencimento.Value.Date<=DateTime.Today.AddDays(30)).Take(8)) { <div class="alert-row"><strong>@l.Produto</strong><span>@l.Quantidade un. · @(l.Vencimento?.ToString("dd/MM/yyyy"))</span></div> }
+   @if(!Model.Lotes.Any(x=>x.Vencimento.HasValue && x.Vencimento.Value.Date<=DateTime.Today.AddDays(30))) { <p class="muted">Nenhum lote vencendo em até 30 dias.</p> }
+  </div>
+ </div>
+ <div class="admin-panel"><div class="panel-head"><h2>Participação nas vendas por produto</h2><a asp-action="Financeiro">Detalhar ↗</a></div><p class="muted">Porcentagem calculada pelas unidades vendidas, considerando apenas vendas concluídas.</p>
+  @foreach(var p in Model.Participacoes.Take(8)) { <div class="share-row"><div><strong>@p.Produto</strong><span>@p.Unidades un. · @p.Percentual.ToString("N1")%</span></div><div class="share-bar"><div style="width:@p.Percentual.ToString("0.##",System.Globalization.CultureInfo.InvariantCulture)%"></div></div></div> }
+  @if(Model.Participacoes.Count==0) { <p class="muted">Registre uma venda no PDV para gerar os indicadores.</p> }
+ </div>
+</section>

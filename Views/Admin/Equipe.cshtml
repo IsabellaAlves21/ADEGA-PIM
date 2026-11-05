@@ -1,0 +1,9 @@
+@model EquipeViewModel
+@{ ViewData["Title"]="Equipe"; }
+<section class="container admin-shell"><div class="admin-title"><span class="mini-label">SOMENTE DONO</span><h1>Cadastro de funcionário<span class="heading-dot">.</span></h1><p>Essa tela é bloqueada para clientes e funcionários. Apenas a conta Dono pode criar acessos internos.</p></div><partial name="_AdminNav" />
+ <form asp-action="Equipe" method="post" class="admin-panel admin-form">@Html.AntiForgeryToken()<div asp-validation-summary="All" class="validation"></div>
+ <div class="field"><label asp-for="Nome">Nome completo</label><input asp-for="Nome" /></div>
+ <div class="field"><label asp-for="Email">E-mail corporativo</label><input asp-for="Email" type="email" /></div>
+ <div class="form-grid"><div class="field"><label asp-for="Senha">Senha (mínimo 12 caracteres)</label><input asp-for="Senha" /></div><div class="field"><label asp-for="ConfirmarSenha">Confirmar senha</label><input asp-for="ConfirmarSenha" /></div></div>
+ <p class="muted">A nova conta recebe sempre o papel Funcionário, sem permissão para criar outros funcionários.</p><button class="btn-primary" type="submit">Criar acesso interno ↗</button>
+ </form></section>

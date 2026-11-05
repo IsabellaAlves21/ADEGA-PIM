@@ -1,0 +1,5 @@
+@model Usuario
+@{
+    ViewData["Title"] = "Meu perfil";
+}
+<section class="container profile-section"><span class="mini-label">MINHA CONTA</span><h1>Olá, @Model.Nome<span class="heading-dot">.</span></h1><p>Dados da conta cadastrada no projeto.</p><div class="profile-card"><div><span>Nome</span><strong>@Model.Nome</strong></div><div><span>E-mail</span><strong>@Model.Email</strong></div><div><span>Permissão</span><strong>@Model.Papel</strong></div><div><span>Cidade</span><strong>@(string.IsNullOrWhiteSpace(Model.Cidade) ? "Não informado" : Model.Cidade)</strong></div><div><span>Armazenamento</span><strong>@(OrigemDados.UsarMySql(Config) ? "MySQL" : "Temporário, sem banco")</strong></div></div><p class="detail-note">A edição de cadastro ficará disponível após a integração definitiva com o banco.</p><form asp-controller="Conta" asp-action="Sair" method="post">@Html.AntiForgeryToken()<button class="btn-outline" type="submit">Sair da conta →</button></form></section>

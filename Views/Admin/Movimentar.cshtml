@@ -1,0 +1,12 @@
+@model EntradaSaidaViewModel
+@inject Adega2L.Repositories.IGestaoRepository Gestao
+@{ ViewData["Title"]="Movimentar estoque"; var produtos=await Gestao.ProdutosAsync(); }
+<section class="container admin-shell"><div class="admin-title"><span class="mini-label">CONTROLE DE MERCADORIAS</span><h1>Entrada e saída<span class="heading-dot">.</span></h1></div><partial name="_AdminNav" />
+ <form asp-action="Movimentar" method="post" class="admin-panel admin-form">@Html.AntiForgeryToken()<div asp-validation-summary="All" class="validation"></div>
+ <div class="field"><label asp-for="ProdutoId">Produto</label><select asp-for="ProdutoId"><option value="0">Selecione o produto...</option>@foreach(var p in produtos){<option value="@p.Id">@p.Nome (estoque: @p.Estoque)</option>}</select></div>
+ <div class="form-grid"><div class="field"><label asp-for="Tipo">Operação</label><select asp-for="Tipo"><option value="ENTRADA">Entrada</option><option value="SAIDA">Saída (perda, ajuste, descarte)</option></select></div>
+ <div class="field"><label asp-for="Quantidade">Quantidade</label><input asp-for="Quantidade" type="number" min="1" max="100000" /></div></div>
+ <div class="field"><label asp-for="DataValidade">Validade do novo lote (se entrada)</label><input asp-for="DataValidade" type="date" /></div>
+ <div class="field"><label asp-for="Observacao">Observação</label><input asp-for="Observacao" maxlength="250" placeholder="Ex.: recebimento de fornecedor, descarte..." /></div>
+ <p class="muted">Entradas criam um lote. Saídas utilizam primeiro os lotes com vencimento mais próximo. Cada operação atualiza o saldo na mesma transação.</p><button class="btn-primary" type="submit">Registrar movimentação ↗</button></form>
+</section>

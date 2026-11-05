@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="300" height="320" viewBox="0 0 300 320" role="img" aria-label="Snack ilustrativo">
+  <defs>
+    <linearGradient id="glass" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#f3ac54"/><stop offset="1" stop-color="#c46432"/>
+    </linearGradient>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="170%"><feDropShadow dx="5" dy="11" stdDeviation="9" flood-opacity="0.18"/></filter>
+  </defs>
+  <ellipse cx="155" cy="276" rx="81" ry="16" fill="#555" opacity=".12"/>
+  <path d="M80 48 Q150 30 220 48 L232 270 Q150 290 68 270 Z" fill="url(#glass)" filter="url(#shadow)" stroke="#b86531" stroke-width="3"/><path d="M84 66 Q150 55 216 66" fill="none" stroke="#fff6" stroke-width="5"/><ellipse cx="150" cy="162" rx="63" ry="65" fill="#f8dc60"/><text x="150" y="132" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold" fill="#6a391e">SNACKS</text><text x="150" y="183" text-anchor="middle" font-family="Arial" font-size="48" font-weight="bold" fill="#6a391e">2L</text><path d="M95 245 Q150 235 204 245" stroke="#fff9" stroke-width="7" fill="none"/>
+</svg>

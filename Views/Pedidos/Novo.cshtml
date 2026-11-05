@@ -1,0 +1,12 @@
+@model PedidoOnlineViewModel
+@{ ViewData["Title"]="Solicitar pedido"; }
+<section class="container admin-shell"><div class="admin-title"><span class="mini-label">PEDIDO DIRETO · SEM CARRINHO</span><h1>Solicitar produto<span class="heading-dot">.</span></h1><p>Este formulário registra uma solicitação para confirmação pela equipe. Não cobra nem reserva o produto automaticamente.</p></div>
+ <div class="order-layout"><div class="admin-panel"><img class="order-image" src="@(Model.Produto?.Imagem ?? "/images/placeholder.svg")" alt="Produto"/><h2>@(Model.Produto?.Nome)</h2><p>@(Model.Produto?.Descricao)</p><strong>@(Model.Produto?.Preco.ToString("C"))</strong><p class="muted">Saldo informado: @(Model.Produto?.Estoque) unidade(s), sujeito à confirmação.</p></div>
+ <form asp-controller="Pedidos" asp-action="Novo" method="post" class="admin-panel admin-form">@Html.AntiForgeryToken()<input asp-for="ProdutoId" type="hidden"/><div asp-validation-summary="All" class="validation"></div>
+ <div class="field"><label asp-for="Nome">Nome</label><input asp-for="Nome" maxlength="120" required /></div><div class="field"><label asp-for="Telefone">Telefone com DDD, só números</label><input asp-for="Telefone" maxlength="11" inputmode="numeric" required /></div>
+ <div class="field"><label asp-for="Endereco">Endereço para contato/entrega</label><input asp-for="Endereco" maxlength="240" required /></div>
+ <div class="form-grid"><div class="field"><label asp-for="Quantidade">Quantidade</label><input asp-for="Quantidade" min="1" max="100" type="number" /></div><div class="field"><label asp-for="Pagamento">Forma pretendida de pagamento no atendimento</label><select asp-for="Pagamento"><option value="DINHEIRO">Dinheiro</option><option value="DEBITO">Cartão de débito</option><option value="CREDITO">Cartão de crédito</option></select></div></div>
+ <div class="field"><label class="checkline"><input asp-for="MaiorDe18" type="checkbox" /> Confirmo que sou maior de 18 anos. A equipe deverá verificar documento de identidade conforme a legislação aplicável.</label><span asp-validation-for="MaiorDe18" class="validation"></span></div>
+ <p class="muted">Não informe dados do cartão. Disponibilidade, regras de venda e entrega serão verificadas pela adega. Cadastro temporário de pedido no modo Demo.</p>
+ <button class="btn-primary" type="submit">Registrar pedido para confirmação ↗</button></form></div>
+</section>

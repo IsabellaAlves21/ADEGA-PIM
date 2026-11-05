@@ -1,0 +1,11 @@
+@model PdvViewModel
+@inject Adega2L.Repositories.IGestaoRepository Gestao
+@{ ViewData["Title"]="Ponto de venda"; var produtos=await Gestao.ProdutosAsync(); }
+<section class="container admin-shell"><div class="admin-title"><span class="mini-label">ATENDIMENTO NO BALCÃO</span><h1>Ponto de venda (PDV)<span class="heading-dot">.</span></h1><p>Registre até quatro produtos por venda; preço atual, estoque e caixa são vinculados automaticamente.</p></div><partial name="_AdminNav" />
+ <form asp-action="Pdv" method="post" class="admin-panel admin-form pdv-form">@Html.AntiForgeryToken()<div asp-validation-summary="All" class="validation"></div>
+ @for(int i=0;i<Model.Itens.Count;i++) { <div class="pdv-line"><div class="field"><label asp-for="Itens[i].ProdutoId">Produto @(i+1)</label><select asp-for="Itens[i].ProdutoId"><option value="0">-- Nenhum --</option>@foreach(var p in produtos.Where(x=>x.Estoque>0)){<option value="@p.Id">@p.Nome · @p.Preco.ToString("C") · @p.Estoque un.</option>}</select></div>
+ <div class="field"><label asp-for="Itens[i].Quantidade">Quantidade</label><input asp-for="Itens[i].Quantidade" type="number" min="0" max="10000" /></div></div> }
+ <div class="field"><label asp-for="Pagamento">Forma de pagamento</label><select asp-for="Pagamento"><option value="DINHEIRO">Dinheiro</option><option value="DEBITO">Cartão de débito</option><option value="CREDITO">Cartão de crédito</option></select></div>
+ <p class="muted">Não são armazenados números de cartão nem realizadas cobranças eletrônicas. O método selecionado é apenas registrado como forma de recebimento no balcão.</p>
+ <button class="btn-primary" type="submit">Concluir venda e atualizar estoque/caixa ↗</button></form>
+</section>

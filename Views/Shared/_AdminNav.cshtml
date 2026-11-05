@@ -1,0 +1,12 @@
+<nav class="admin-nav" aria-label="Navegação administrativa">
+    <a asp-controller="Admin" asp-action="Index">Visão geral</a>
+    <a asp-controller="Admin" asp-action="Estoque">Estoque</a>
+    <a asp-controller="Admin" asp-action="Movimentar">Entrada / saída</a>
+    <a asp-controller="Admin" asp-action="NovoProduto">Novo produto</a>
+    <a asp-controller="Admin" asp-action="Pdv">PDV</a>
+    <a asp-controller="Admin" asp-action="Vendas">Vendas e pedidos</a>
+    <a asp-controller="Admin" asp-action="Financeiro">Financeiro</a>
+    @if(User.IsInRole(Papeis.Dono)) { <a asp-controller="Admin" asp-action="Equipe">Cadastrar funcionário</a> }
+</nav>
+@if (TempData["Mensagem"] is string sucesso) { <div class="alert success" role="status">@sucesso</div> }
+@if (TempData["Erro"] is string erro) { <div class="alert admin-error" role="alert">@erro</div> }

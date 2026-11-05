@@ -1,0 +1,15 @@
+@model BuscaViewModel
+@{
+    ViewData["Title"] = "Busca";
+}
+<div class="container breadcrumb"><a asp-controller="Home" asp-action="Index">Início</a><span>›</span><span>Pesquisa</span></div>
+<section class="container category-page"><div class="page-intro"><div><span class="mini-label">PESQUISA DO CATÁLOGO</span><h1>Resultados<span class="heading-dot">.</span></h1><p>Busca por: <strong>@(string.IsNullOrWhiteSpace(Model.Termo) ? "(sem termo)" : Model.Termo)</strong></p></div><div class="count-chip">@Model.Resultados.Count item(ns)</div></div>
+@if (Model.Resultados.Count > 0)
+{
+    <div class="product-grid">@foreach (var p in Model.Resultados) { <partial name="_ProdutoCard" model="p" /> }</div>
+}
+else
+{
+    <div class="empty-state"><span class="empty-icon">⌕</span><h2>Nenhum produto encontrado</h2><p>Tente buscar por uma palavra diferente ou confira nossas categorias.</p><a class="btn-primary" asp-controller="Home" asp-action="Index">Voltar ao início ↗</a></div>
+}
+</section>

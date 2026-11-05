@@ -1,0 +1,11 @@
+@model IReadOnlyList<Venda>
+@{ ViewData["Title"]="Vendas e pedidos"; }
+<section class="container admin-shell"><div class="admin-title"><span class="mini-label">ACOMPANHAMENTO DE OPERAÇÕES</span><h1>Vendas e pedidos<span class="heading-dot">.</span></h1><p>Pedidos online ficam pendentes até a confirmação pela equipe; só então afetam o caixa e o estoque.</p></div><partial name="_AdminNav" />
+ <div class="admin-panel"><div class="panel-head"><h2>Histórico recente</h2><a class="tiny-button" asp-action="Pdv">+ Venda no PDV</a></div>
+ @if(Model.Count==0){<p class="muted">Ainda não há vendas ou pedidos registrados.</p>}
+ @foreach(var v in Model) { <div class="sale-row"><div><strong>#@v.Id · @v.Origem</strong><p class="muted">@v.Data.ToString("dd/MM/yyyy HH:mm") · @v.Pagamento · @v.Cliente</p>
+ <p class="muted">@string.Join(" · ",v.Itens.Select(x=>$"{x.Quantidade}x {x.NomeProduto}"))</p></div><div class="sale-actions"><strong>@v.Total.ToString("C")</strong><span class="status @(v.Status=="CONCLUIDA"?"ok":"warn")">@v.Status</span>
+ @if(v.Status=="PENDENTE" && v.Origem=="ONLINE") { <form asp-action="ConfirmarPedido" method="post">@Html.AntiForgeryToken()<input type="hidden" name="id" value="@v.Id"/><button type="submit" class="tiny-button">Confirmar após pagamento</button></form> }
+ </div></div> }
+ </div>
+</section>

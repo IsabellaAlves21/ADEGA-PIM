@@ -1,0 +1,23 @@
+ADEGA2L — PROJETO PIM COMPLETO (C# ASP.NET Core MVC / HTML / CSS / MySQL)
+
+1) Instale o SDK .NET 10 (nao precisa XAMPP para abrir SEM banco).
+2) Extraia o ZIP, abra a pasta no VS Code.
+3) No terminal: dotnet restore, depois dotnet run.
+4) Abra: http://localhost:5050
+
+MODO DEMO LOCAL:
+  Dono:        dono@demo.local / Demo@12345
+  Funcionario: funcionario@demo.local / Demo@12345
+
+BANCO MYSQL:
+  Importe o database/01_ADEGA2L_BANCO_COMPLETO.sql no phpMyAdmin.
+  Configure variavel de ambiente ConnectionStrings__MySql (nao edite PHP).
+  Crie primeiro Dono pelo comando seguro: dotnet run -- --criar-dono
+  Instrucoes detalhadas no README.md.
+
+O site oferece catalogo, pedidos DIRETOS pendentes, cadastro e login,
+estoque, lotes/validade, fluxo de caixa, PDV e painel protegido por roles.
+Carrinho fica desativado para atualizacao futura. Cartao nao e cobrado online.
+
+ATENCAO: prototipo academico. Nao publique em producao sem teste,
+HTTPS, revisao de seguranca, privacidade e conformidade legal.

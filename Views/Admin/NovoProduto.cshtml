@@ -1,0 +1,12 @@
+@model NovoProdutoViewModel
+@{ ViewData["Title"]="Cadastrar produto"; }
+<section class="container admin-shell"><div class="admin-title"><span class="mini-label">CADASTRO INTERNO</span><h1>Novo produto<span class="heading-dot">.</span></h1></div><partial name="_AdminNav" />
+ <form asp-action="NovoProduto" method="post" class="admin-panel admin-form">@Html.AntiForgeryToken()<div asp-validation-summary="All" class="validation"></div>
+ <div class="field"><label asp-for="Nome">Nome</label><input asp-for="Nome" maxlength="180" /></div>
+ <div class="form-grid"><div class="field"><label asp-for="Categoria">Categoria</label><select asp-for="Categoria"><option>Bebidas</option><option>Destilados</option><option>Snacks</option><option>Cigarros</option></select></div>
+ <div class="field"><label asp-for="EstoqueMinimo">Quantidade mínima de alerta</label><input asp-for="EstoqueMinimo" type="number" min="0" /></div>
+ <div class="field"><label asp-for="Preco">Preço de venda (R$)</label><input asp-for="Preco" type="number" min="0" step="0.01" /></div>
+ <div class="field"><label asp-for="Custo">Custo (R$)</label><input asp-for="Custo" type="number" min="0" step="0.01" /></div></div>
+ <div class="field"><label asp-for="Descricao">Descrição</label><textarea asp-for="Descricao" rows="3" maxlength="800"></textarea></div>
+ <p class="muted">O produto começa com saldo zero. Utilize Entrada de mercadorias para registrar as unidades e a validade.</p><button class="btn-primary" type="submit">Cadastrar produto ↗</button></form>
+</section>

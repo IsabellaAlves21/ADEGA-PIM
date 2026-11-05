@@ -1,0 +1,14 @@
+@model EstoqueViewModel
+@{ ViewData["Title"]="Estoque"; }
+<section class="container admin-shell"><div class="admin-title"><span class="mini-label">CONTROLE DE MERCADORIAS</span><h1>Estoque<span class="heading-dot">.</span></h1><p>Cadastre produtos, registre entradas e saídas e acompanhe lotes e validade.</p></div><partial name="_AdminNav" />
+ <div class="admin-panel"><div class="panel-head"><h2>Produtos cadastrados</h2><div><a class="tiny-button" asp-action="NovoProduto">+ Novo produto</a> <a class="tiny-button" asp-action="Movimentar">+ Movimentar</a></div></div>
+ <div class="table-wrap"><table class="admin-table"><thead><tr><th>ID</th><th>Produto</th><th>Categoria</th><th>Preço</th><th>Saldo</th><th>Min.</th><th>Situação</th></tr></thead><tbody>
+ @foreach(var p in Model.Produtos) { <tr><td>@p.Id</td><td>@p.Nome</td><td>@p.Categoria</td><td>@p.Preco.ToString("C")</td><td>@p.Estoque</td><td>@p.EstoqueMinimo</td><td>@if(p.Estoque<=p.EstoqueMinimo){<span class="status warn">Baixo</span>}else{<span class="status ok">Normal</span>}</td></tr> }
+ </tbody></table></div></div>
+ <div class="admin-panel"><h2>Lotes e datas de validade</h2><p class="muted">Atenção: os lotes vencidos também aparecem para impedir o esquecimento da retirada física. Avalie a política de bloqueio no PDV antes do uso real.</p><div class="table-wrap"><table class="admin-table"><thead><tr><th>Lote</th><th>Produto</th><th>Quantidade</th><th>Validade</th><th>Alerta</th></tr></thead><tbody>
+ @foreach(var l in Model.Lotes) { <tr><td>@l.Codigo</td><td>@l.Produto</td><td>@l.Quantidade</td><td>@(l.Vencimento?.ToString("dd/MM/yyyy")??"Não informada")</td><td>@if(l.Vencimento.HasValue && l.Vencimento.Value.Date<=DateTime.Today.AddDays(30)){<span class="status warn">Atenção</span>}else{<span class="status ok">OK</span>}</td></tr> }
+ </tbody></table></div></div>
+ <div class="admin-panel"><h2>Últimas movimentações</h2><div class="table-wrap"><table class="admin-table"><thead><tr><th>Data</th><th>Produto</th><th>Tipo</th><th>Quantidade</th><th>Observação</th></tr></thead><tbody>
+ @foreach(var m in Model.Historico) { <tr><td>@m.Data.ToString("dd/MM/yyyy HH:mm")</td><td>@m.Produto</td><td>@m.Tipo</td><td>@m.Quantidade</td><td>@m.Observacao</td></tr> }
+ </tbody></table></div></div>
+</section>

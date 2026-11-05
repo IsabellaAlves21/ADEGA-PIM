@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Adega2L - catálogo de bebidas, destilados, snacks e conveniência." />
+    <title>@ViewData["Title"] | Adega2L</title>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    <div class="top-strip">
+        <div class="container top-strip-inner"><span>✦ SUA CONVENIÊNCIA EM UM SÓ LUGAR</span><span>Conteúdo destinado a maiores de 18 anos</span></div>
+    </div>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a class="brand" asp-controller="Home" asp-action="Index" aria-label="Adega2L, página inicial">
+                <span class="brand-mark">2<span>L</span></span>
+                <span class="brand-name">ADEGA<span>2L</span><small>BEBIDAS & CONVENIÊNCIA</small></span>
+            </a>
+            <form class="search-box" asp-controller="Produtos" asp-action="Buscar" method="get" role="search">
+                <label class="sr-only" for="busca-site">Buscar no catálogo</label>
+                <input id="busca-site" name="q" type="search" placeholder="Olá, o que você procura?" value="@Context.Request.Query["q"]" maxlength="100" required />
+                <button type="submit" aria-label="Pesquisar"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.4"/><path d="m16 16 5 5"/></svg></button>
+            </form>
+            <div class="header-actions">
+                @if (User.Identity?.IsAuthenticated == true)
+                {
+                    <a class="header-action" asp-controller="Conta" asp-action="Perfil"><span class="action-icon">♙</span><span>Meu perfil</span></a>
+                }
+                else
+                {
+                    <a class="header-action" asp-controller="Conta" asp-action="Login"><span class="action-icon">♙</span><span>Entrar</span></a>
+                    <a class="register-link" asp-controller="Conta" asp-action="Cadastro">Cadastre-se</a>
+                }
+                @if(User.IsInRole(Papeis.Funcionario) || User.IsInRole(Papeis.Dono)) { <a class="header-action admin-access" asp-controller="Admin" asp-action="Index"><span class="action-icon">⚙</span><span>Gestão</span></a> }
+                <a class="header-action cart-action" asp-controller="Home" asp-action="Carrinho"><span class="action-icon">▣</span><span>Carrinho</span><em>EM BREVE</em></a>
+                <button class="mobile-toggle" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="menu-categorias" data-menu-toggle>☰</button>
+            </div>
+        </div>
+    </header>
+    <nav class="category-nav" id="menu-categorias" aria-label="Categorias do catálogo">
+        <div class="container category-nav-inner">
+            <a asp-controller="Home" asp-action="Index">Início</a>
+            <a asp-controller="Produtos" asp-action="Categoria" asp-route-categoria="bebidas">Bebidas</a>
+            <a asp-controller="Produtos" asp-action="Categoria" asp-route-categoria="destilados">Destilados</a>
+            <a asp-controller="Produtos" asp-action="Categoria" asp-route-categoria="snacks">Snacks</a>
+            <a asp-controller="Produtos" asp-action="Categoria" asp-route-categoria="cigarros">Cigarros</a>
+            <a asp-controller="Home" asp-action="Institucional">Sobre a Adega</a>
+            @if(User.IsInRole(Papeis.Funcionario) || User.IsInRole(Papeis.Dono)) { <a asp-controller="Admin" asp-action="Index">Painel interno 🔒</a> }
+        </div>
+    </nav>
+    <main id="conteudo-principal">
+        @RenderBody()
+    </main>
+    <footer class="site-footer">
+        <div class="container footer-content">
+            <div class="footer-brand"><a class="footer-logo" asp-controller="Home" asp-action="Index">ADEGA<span>2L</span></a>
+                <p>Bebidas, snacks e praticidade em um só lugar.</p>
+                <p class="footer-disclaimer">Projeto acadêmico: recebe pedidos diretos pendentes, sem cobrança eletrônica. Carrinho em atualização futura.</p>
+            </div>
+            <div class="footer-col"><h3>Explore</h3>
+                <a asp-controller="Produtos" asp-action="Categoria" asp-route-categoria="bebidas">Bebidas</a>
+                <a asp-controller="Produtos" asp-action="Categoria" asp-route-categoria="destilados">Destilados</a>
+                <a asp-controller="Produtos" asp-action="Categoria" asp-route-categoria="snacks">Snacks</a>
+                <a asp-controller="Produtos" asp-action="Categoria" asp-route-categoria="cigarros">Cigarros</a>
+            </div>
+            <div class="footer-col"><h3>Institucional</h3>
+                <a asp-controller="Home" asp-action="Institucional">Quem somos</a>
+                <a asp-controller="Conta" asp-action="Cadastro">Cadastro</a>
+                <a asp-controller="Home" asp-action="Carrinho">Carrinho (futuro)</a>
+                @if(User.IsInRole(Papeis.Funcionario) || User.IsInRole(Papeis.Dono)) { <a asp-controller="Admin" asp-action="Index">Painel da equipe</a> }
+            </div>
+            <div class="footer-col"><h3>Contato informado no projeto</h3>
+                <p>(13) 98765-4321</p>
+                <p>R. José Rodrigues Martins, 507 - Samarita<br />São Vicente - SP</p>
+                <a href="https://www.google.com/maps/search/?api=1&amp;query=Rua+Jose+Rodrigues+Martins+507+Samarita+Sao+Vicente" target="_blank" rel="noopener noreferrer">Ver localização</a>
+            </div>
+        </div>
+        <div class="footer-bottom"><div class="container"><span>© @DateTime.Now.Year Adega2L · Projeto acadêmico</span><span>Venda de bebidas alcoólicas e cigarros somente para maiores de 18 anos.</span></div></div>
+    </footer>
+    <script src="~/js/site.js" asp-append-version="true" defer></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
